@@ -17,8 +17,6 @@ services:
   nginx:
     restart: always
     container_name: ${PROJECT_NAME}-nginx
-    profiles:
-      - dev
     ports:
       - ${WEBSERVER_PORT}:80
     build:
