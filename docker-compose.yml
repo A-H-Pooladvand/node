@@ -1,5 +1,10 @@
 version: "3.8"
 
+networks:
+  microservice:
+    name: microservice
+    driver: bridge
+
 services:
   node:
     image: node:lts-alpine
