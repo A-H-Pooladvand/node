@@ -15,13 +15,13 @@ help:
 build: ## Builds the docker-compose.yml file
 	docker compose build --remove-orphans
 
-rebuild: ## Rebuilds docker-compose.yml
-	docker compose up --build --force-recreate --remove-orphans
-
 up: ## Create and start containers
 	docker compose up --remove-orphans
 
-watch: ## Create, start and detach containers
+rebuild: ## Rebuilds docker-compose.yml
+	docker compose up --build --force-recreate --remove-orphans
+
+watch: ## Detached mode: Run containers in the background
 	docker compose up -d --remove-orphans
 
 down: ## Stop and remove resources
@@ -39,6 +39,14 @@ install: ## Runs yarn install
 
 dist: ## Runs yarn build APPLICATION_NAME
 	@read -p "Enter the application name:" APPLICATION; \
-	docker compose run --rm node yarn build $$APPLICATION;
+	docker compose run --rm node yarn build $$APPLICATION; \
+	docker compose run --rm node cp -r dist/. html; \
+	echo "Distribution completed";
 
-full: install dist ## Runs all of the necessary
+all: install dist ## Runs all of the necessary
+
+restart: ## Restarts the containers
+	docker compose restart
+
+reload: ## Reloads the nginx configuration
+	docker-compose exec nginx nginx -s reload
